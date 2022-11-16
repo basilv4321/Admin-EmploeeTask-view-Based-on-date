@@ -1,0 +1,160 @@
+
+
+
+
+<div class="container-fluid">
+    <div class="row" style="padding-top: 5rem;">
+        <div class="col-6 text-center">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-4"><app-date (date)="getDate($event)"></app-date></div></div>
+                <!-- <div class="col-2"></div> -->
+            </div>
+            
+        <div class="col-6">
+            <div class="row">
+                <div class="col-12 text-center"><button class="btn btn-dark" (click)="listSelectedEmployeeTasks()">Show all tasks assigned for the selected date against employee</button></div>
+                <div class="col-12 mt-3  border border-dark" style="border-radius: 10px;">
+                    
+                    <table class="table">
+                        <thead>
+                            <tr class="text-center fw-bolder" style="height:1rem;">{{selectedDate}}</tr>
+                            <!-- <h class="fw-bolder"></h> -->
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">task</th>
+                            <!-- <th scope="col">date</th> -->
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let n of employeeTasksInSelectedDate;let i=index">
+                            <th scope="row">{{i}}</th>
+                            <td>{{n.task}}</td>
+                            <!-- <td>{{n.date}}</td> -->
+                          </tr>
+                        </tbody>
+                        <div *ngIf="employeeTasksInSelectedDate.length==0" class="text-center">
+                            <h3>empty list</h3>
+                        </div>
+                      </table>
+                        <!-- <div class="border border-dark">
+                            <h2>Vertical</h2>
+                            <div class="col-12 md:col-4">
+                                <p-scrollPanel [style]="{width: '100%', height: '200px'}">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                        Vitae et leo duis ut diam.
+                                        Ultricies mi quis hendrerit dolor magna eget est lorem. Amet consectetur adipiscing elit ut.
+                                        Nam libero justo laoreet sit amet. Pharetra massa massa ultricies mi quis hendrerit dolor magna.
+                                        Est ultricies integer quis auctor elit sed vulputate. Consequat ac felis donec et. Tellus orci ac auctor augue mauris.
+                                        Semper feugiat nibh sed pulvinar proin gravida hendrerit lectus a. Tincidunt arcu non sodales neque sodales.
+                                        Metus aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Sodales ut etiam sit amet nisl purus.
+                                        Cursus sit amet dictum sit amet. Tristique senectus et netus et malesuada fames ac turpis egestas.
+                                        Et tortor consequat id porta nibh venenatis cras sed. Diam maecenas ultricies mi eget mauris.
+                                        Eget egestas purus viverra accumsan in nisl nisi. Suscipit adipiscing bibendum est ultricies integer.
+                                        Mattis aliquam faucibus purus in massa tempor nec.
+                                    </p>
+                                </p-scrollPanel>
+                            </div>
+                        </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6" style="padding-top: 8rem;">
+            <div class="fw-bolder fs-6">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: &nbsp;&nbsp;&nbsp;&nbsp;{{selectedDate}}
+            </div>
+        </div>
+        <div class="col-6" style="padding-top: 8rem;">
+
+            <select class="form-select" aria-label="Default select example" (change)="selectedEmployeefn($event)">
+                <option selected>Select an Employee Name from Drop Down</option>
+                <option *ngFor="let i of employeeList" value="{{i.username}}">{{i.username}}</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="row" style="padding-top: 5rem;">
+        <div class="col-12 text-center">
+            <div class="text-center">
+                <h3>Add Employ Tasks</h3>
+            </div>
+
+
+
+            <!-- Button trigger modal -->
+<button type="button" class="btn btn-white " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <i class="fa-regular fa-2x fa-square-plus"></i>
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" *ngIf="selectedEmployee">
+        <div class="modal-header" >
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">{{selectedEmployee}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="" [formGroup]="taskForm">
+                <input type="text" class="form-control" placeholder="task" formControlName="task"><br>
+                <input type="date"  class="form-control" name="" id="" formControlName="date">
+            </form>
+            <div class="text-danger fw-bold" *ngIf="invalidBoolean">
+                invalid
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">CANCEL</button>
+          <button type="button" class="btn btn-dark" (click)="taskSubmit()">ADD</button>
+        </div>
+      </div>
+      <!--  -->
+      <div class="modal-content" *ngIf="selectedEmployee===''">
+        <div class="modal-header" >
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Employee</h1>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+                 
+            
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-12 border border-dark" style="border-radius: 10px;">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">task</th>
+                    <th scope="col">date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let n of employeeTasks;let i=index">
+                    <th scope="row">{{i}}</th>
+                    <td>{{n.task}}</td>
+                    <td>{{n.date}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div *ngIf="employeeTasks.length==0" class="text-center">
+                    <h3>empty list</h3>
+              </div>
+        </div>
+        <!-- <div class="col-6">gffdghfhgfhjfghghgfhfghfghhhhhhhhhhhh</div> -->
+    </div>
+    <div class="row">
+        <div class="col-12 text-center pt-3">
+            <button class="btn btn-success" (click)="saveTask()">SAVE</button>
+        </div>
+    </div>
+</div>
